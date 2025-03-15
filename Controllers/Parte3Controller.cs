@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProvaPub.Infra;
 using ProvaPub.Models;
-using ProvaPub.Repository;
 using ProvaPub.Services;
 
 namespace ProvaPub.Controllers
