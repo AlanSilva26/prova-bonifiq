@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProvaPub.Infra;
 using ProvaPub.Models;
-using ProvaPub.Services;
+using ProvaPub.Services.Interfaces;
 
 namespace ProvaPub.Controllers
 {
@@ -17,19 +15,45 @@ namespace ProvaPub.Controllers
     /// Demonstre como você faria isso.
     /// </summary>
     [ApiController]
-	[Route("[controller]")]
-	public class Parte3Controller :  ControllerBase
-	{
-		[HttpGet("orders")]
-		public async Task<Order> PlaceOrder(string paymentMethod, decimal paymentValue, int customerId)
-		{
-            var contextOptions = new DbContextOptionsBuilder<TestDbContext>()
-    .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Teste;Trusted_Connection=True;")
-    .Options;
+    [Route("[controller]")]
+    public class Parte3Controller : ControllerBase
+    {
+        private readonly IOrderService _orderService;
 
-            using var context = new TestDbContext(contextOptions);
+        public Parte3Controller(IOrderService orderService) => _orderService = orderService;
 
-            return await new OrderService(context).PayOrder(paymentMethod, paymentValue, customerId);
-		}
-	}
+        /// <summary>
+        /// Processa o pagamento de um pedido com o método de pagamento especificado.
+        /// </summary>
+        /// <param name="paymentMethod">Método de pagamento (Pix, CreditCard, PayPal).</param>
+        /// <param name="value">Valor do pagamento.</param>
+        /// <param name="customerId">ID do cliente que está realizando o pagamento.</param>
+        /// <returns>Retorna os detalhes do pedido processado.</returns>
+        /// <response code="200">Pedido processado com sucesso.</response>
+        /// <response code="400">Requisição inválida (dados ausentes ou incorretos).</response>
+        /// <response code="500">Erro interno ao processar o pedido.</response>
+        [HttpPost("PlaceOrder")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Order))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<Order>> PlaceOrder(string paymentMethod, decimal value, int customerId)
+        {
+            if (value <= 0) return BadRequest("O valor do pagamento deve ser maior que zero.");
+
+            try
+            {
+                var order = await _orderService.PayOrderAsync(paymentMethod, value, customerId);
+
+                return Ok(order);
+            }
+            catch (InvalidOperationException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Erro interno ao processar o pedido.");
+            }
+        }
+    }
 }
