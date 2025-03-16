@@ -4,6 +4,8 @@ using ProvaPub.Repository;
 using ProvaPub.Repository.Interfaces;
 using ProvaPub.Services;
 using ProvaPub.Services.Interfaces;
+using ProvaPub.Strategy;
+using ProvaPub.Strategy.Interfaces;
 using System.Diagnostics.CodeAnalysis;
 
 namespace ProvaPub.IoC;
@@ -15,6 +17,7 @@ public static class ServiceCollection
     {
         services.AddDatabase(configuration);
         services.AddRepositories();
+        services.AddStrategies();
         services.AddServices();
     }
 
@@ -22,7 +25,7 @@ public static class ServiceCollection
     {
         var connectionString = configuration.GetConnectionString("ctx");
 
-        services.AddDbContext<TestDbContext>((services, builder) => builder.UseSqlServer(connectionString), ServiceLifetime.Singleton);
+        services.AddDbContext<TestDbContext>((services, builder) => builder.UseSqlServer(connectionString));
 
         return services;
     }
@@ -32,6 +35,16 @@ public static class ServiceCollection
         services.AddScoped<IRandomNumberRepository, RandomNumberRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddStrategies(this IServiceCollection services)
+    {
+        services.AddScoped<IPaymentStrategy, PixPaymentStrategy>();
+        services.AddScoped<IPaymentStrategy, CreditCardPaymentStrategy>();
+        services.AddScoped<IPaymentStrategy, PayPalPaymentStrategy>();
 
         return services;
     }
@@ -42,6 +55,7 @@ public static class ServiceCollection
         services.AddScoped<IRandomService, RandomService>();
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<ICustomerService, CustomerService>();
+        services.AddScoped<IOrderService, OrderService>();
 
         return services;
     }
