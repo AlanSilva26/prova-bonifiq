@@ -23,11 +23,13 @@ namespace ProvaPub.Controllers
         /// <response code="200">Número gerado com sucesso.</response>
         /// <response code="500">Erro interno ao gerar o número.</response>
         [HttpGet]
-        [ProducesResponseType(typeof(int), 200)]
-        [ProducesResponseType(500)]
-        public async Task<int> Index()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(int))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Index()
         {
-            return await _randomService.GetRandom();
+            var number = await _randomService.GetRandom();
+
+            return Ok(number);
         }
     }
 }

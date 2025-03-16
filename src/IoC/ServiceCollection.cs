@@ -30,6 +30,8 @@ public static class ServiceCollection
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IRandomNumberRepository, RandomNumberRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<ICustomerRepository, CustomerRepository>();
 
         return services;
     }
@@ -38,6 +40,8 @@ public static class ServiceCollection
     {
         services.AddScoped<INumberGeneratorService, NumberGeneratorService>();
         services.AddScoped<IRandomService, RandomService>();
+        services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<ICustomerService, CustomerService>();
 
         return services;
     }
