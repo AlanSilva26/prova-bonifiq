@@ -9,14 +9,14 @@ namespace ProvaPub.Services;
 public class CustomerService : ICustomerService
 {
     private readonly TestDbContext _ctx;
-    private readonly ICustomerRepository _customerRepository;
     private readonly ILogger<CustomerService> _logger;
+    private readonly ICustomerRepository _customerRepository;
 
-    public CustomerService(TestDbContext ctx, ICustomerRepository customerRepository, ILogger<CustomerService> logger)
+    public CustomerService(TestDbContext ctx, ILogger<CustomerService> logger, ICustomerRepository customerRepository)
     {
         _ctx = ctx;
-        _customerRepository = customerRepository;
         _logger = logger;
+        _customerRepository = customerRepository;
     }
 
     public async Task<PaginatedList<Customer>> ListCustomersAsync(int page)

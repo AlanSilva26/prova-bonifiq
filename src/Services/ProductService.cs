@@ -6,13 +6,13 @@ namespace ProvaPub.Services;
 
 public class ProductService : IProductService
 {
-    private readonly IProductRepository _productRepository;
     private readonly ILogger<ProductService> _logger;
+    private readonly IProductRepository _productRepository;
 
-    public ProductService(IProductRepository productRepository, ILogger<ProductService> logger)
+    public ProductService(ILogger<ProductService> logger, IProductRepository productRepository)
     {
-        _productRepository = productRepository;
         _logger = logger;
+        _productRepository = productRepository;
     }
 
     public async Task<PaginatedList<Product>> ListProductsAsync(int page)
