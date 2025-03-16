@@ -1,9 +1,9 @@
-﻿using ProvaPub.Models;
-using ProvaPub.Repository;
+﻿using ProvaPub.Infra;
+using ProvaPub.Models;
 
 namespace ProvaPub.Services
 {
-	public class OrderService
+    public class OrderService
 	{
         TestDbContext _ctx;
 

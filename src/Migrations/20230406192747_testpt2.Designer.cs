@@ -3,17 +3,21 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ProvaPub.Repository;
+using ProvaPub.Infra;
+
 
 #nullable disable
 
 namespace ProvaPub.Migrations
 {
     [DbContext(typeof(TestDbContext))]
-    partial class TestDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230406192747_testpt2")]
+    partial class testpt2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,102 +46,102 @@ namespace ProvaPub.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Melanie Ullrich"
+                            Name = "Elaine Fay"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Travis Dare"
+                            Name = "Meredith Cummings"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Joan Conn"
+                            Name = "Manuel Hickle"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Tony Cormier"
+                            Name = "Carla Armstrong"
                         },
                         new
                         {
                             Id = 5,
-                            Name = "Domingo Zboncak"
+                            Name = "Patty Runolfsdottir"
                         },
                         new
                         {
                             Id = 6,
-                            Name = "Willie Windler"
+                            Name = "Joan Fahey"
                         },
                         new
                         {
                             Id = 7,
-                            Name = "Ed Sipes"
+                            Name = "Leslie Schiller"
                         },
                         new
                         {
                             Id = 8,
-                            Name = "Derek Nolan"
+                            Name = "Rene Legros"
                         },
                         new
                         {
                             Id = 9,
-                            Name = "Harriet Hettinger"
+                            Name = "Albert Jacobson"
                         },
                         new
                         {
                             Id = 10,
-                            Name = "Brooke Grady"
+                            Name = "Ruben Bernier"
                         },
                         new
                         {
                             Id = 11,
-                            Name = "Israel Heaney"
+                            Name = "Jordan Shields"
                         },
                         new
                         {
                             Id = 12,
-                            Name = "Henrietta Beier"
+                            Name = "Ramiro Anderson"
                         },
                         new
                         {
                             Id = 13,
-                            Name = "Wilbur Keeling"
+                            Name = "Maggie Gislason"
                         },
                         new
                         {
                             Id = 14,
-                            Name = "Melinda Beatty"
+                            Name = "Lois Lindgren"
                         },
                         new
                         {
                             Id = 15,
-                            Name = "Saul Goldner"
+                            Name = "Merle Medhurst"
                         },
                         new
                         {
                             Id = 16,
-                            Name = "Shannon Dare"
+                            Name = "Orlando Roob"
                         },
                         new
                         {
                             Id = 17,
-                            Name = "Elvira Fay"
+                            Name = "Duane Macejkovic"
                         },
                         new
                         {
                             Id = 18,
-                            Name = "Brittany Jakubowski"
+                            Name = "Herman Bashirian"
                         },
                         new
                         {
                             Id = 19,
-                            Name = "Shannon Nitzsche"
+                            Name = "Bernice Prohaska"
                         },
                         new
                         {
                             Id = 20,
-                            Name = "Juanita Mills"
+                            Name = "Alfredo Rempel"
                         });
                 });
 
@@ -185,122 +189,103 @@ namespace ProvaPub.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Handmade Frozen Chair"
+                            Name = "Gorgeous Frozen Towels"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Fantastic Frozen Ball"
+                            Name = "Refined Metal Computer"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Incredible Fresh Mouse"
+                            Name = "Rustic Plastic Chair"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Ergonomic Soft Shirt"
+                            Name = "Tasty Concrete Shirt"
                         },
                         new
                         {
                             Id = 5,
-                            Name = "Sleek Concrete Hat"
+                            Name = "Handmade Rubber Gloves"
                         },
                         new
                         {
                             Id = 6,
-                            Name = "Refined Steel Soap"
+                            Name = "Intelligent Granite Bacon"
                         },
                         new
                         {
                             Id = 7,
-                            Name = "Handcrafted Cotton Hat"
+                            Name = "Tasty Concrete Cheese"
                         },
                         new
                         {
                             Id = 8,
-                            Name = "Small Fresh Towels"
+                            Name = "Incredible Cotton Bike"
                         },
                         new
                         {
                             Id = 9,
-                            Name = "Tasty Frozen Cheese"
+                            Name = "Small Fresh Hat"
                         },
                         new
                         {
                             Id = 10,
-                            Name = "Tasty Steel Computer"
+                            Name = "Handcrafted Concrete Hat"
                         },
                         new
                         {
                             Id = 11,
-                            Name = "Practical Soft Car"
+                            Name = "Handmade Fresh Hat"
                         },
                         new
                         {
                             Id = 12,
-                            Name = "Fantastic Metal Bike"
+                            Name = "Awesome Soft Table"
                         },
                         new
                         {
                             Id = 13,
-                            Name = "Intelligent Steel Chips"
+                            Name = "Unbranded Steel Gloves"
                         },
                         new
                         {
                             Id = 14,
-                            Name = "Sleek Plastic Cheese"
+                            Name = "Handmade Concrete Chicken"
                         },
                         new
                         {
                             Id = 15,
-                            Name = "Intelligent Metal Computer"
+                            Name = "Practical Granite Chair"
                         },
                         new
                         {
                             Id = 16,
-                            Name = "Small Soft Tuna"
+                            Name = "Incredible Fresh Chair"
                         },
                         new
                         {
                             Id = 17,
-                            Name = "Intelligent Granite Sausages"
+                            Name = "Handmade Plastic Mouse"
                         },
                         new
                         {
                             Id = 18,
-                            Name = "Rustic Plastic Car"
+                            Name = "Unbranded Concrete Computer"
                         },
                         new
                         {
                             Id = 19,
-                            Name = "Fantastic Fresh Salad"
+                            Name = "Fantastic Cotton Gloves"
                         },
                         new
                         {
                             Id = 20,
-                            Name = "Unbranded Granite Bike"
+                            Name = "Fantastic Concrete Pants"
                         });
-                });
-
-            modelBuilder.Entity("ProvaPub.Models.RandomNumber", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Number")
-                        .IsUnique();
-
-                    b.ToTable("Numbers");
                 });
 
             modelBuilder.Entity("ProvaPub.Models.Order", b =>

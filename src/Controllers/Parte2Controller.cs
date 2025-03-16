@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ProvaPub.Infra;
 using ProvaPub.Models;
-using ProvaPub.Repository;
 using ProvaPub.Services;
 
 namespace ProvaPub.Controllers
 {
-	
-	[ApiController]
+
+    [ApiController]
 	[Route("[controller]")]
 	public class Parte2Controller :  ControllerBase
 	{
