@@ -1,21 +1,31 @@
-﻿using ProvaPub.Infra;
-using ProvaPub.Models;
+﻿using ProvaPub.Models;
+using ProvaPub.Repository.Interfaces;
+using ProvaPub.Services.Interfaces;
 
-namespace ProvaPub.Services
+namespace ProvaPub.Services;
+
+public class ProductService : IProductService
 {
-    public class ProductService
-	{
-		TestDbContext _ctx;
+    private readonly IProductRepository _productRepository;
+    private readonly ILogger<ProductService> _logger;
 
-		public ProductService(TestDbContext ctx)
-		{
-			_ctx = ctx;
-		}
+    public ProductService(IProductRepository productRepository, ILogger<ProductService> logger)
+    {
+        _productRepository = productRepository;
+        _logger = logger;
+    }
 
-		public ProductList  ListProducts(int page)
-		{
-			return new ProductList() {  HasNext=false, TotalCount =10, Products = _ctx.Products.ToList() };
-		}
+    public async Task<PaginatedList<Product>> ListProductsAsync(int page)
+    {
+        try
+        {
+            return await _productRepository.ListItemsAsync(page);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Erro ao listar produtos para a página {Page}", page);
 
-	}
+            throw new Exception("Erro ao buscar os produtos. Tente novamente mais tarde.");
+        }
+    }
 }

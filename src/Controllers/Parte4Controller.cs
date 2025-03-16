@@ -15,21 +15,22 @@ namespace ProvaPub.Controllers
     /// Crie o teste na pasta "Tests" da solution
     /// </summary>
     [ApiController]
-	[Route("[controller]")]
-	public class Parte4Controller :  ControllerBase
-	{
+    [Route("[controller]")]
+    public class Parte4Controller : ControllerBase
+    {
         TestDbContext _ctx;
         public Parte4Controller(TestDbContext ctx)
         {
             _ctx = ctx;
         }
 
-        [HttpGet("CanPurchase")]
-		public async Task<bool> CanPurchase(int customerId, decimal purchaseValue)
-		{
-			CustomerService svc = new CustomerService(_ctx);
+        // TO DO: Ajustar endpoint na parte 4.
+        //      [HttpGet("CanPurchase")]
+        //public async Task<bool> CanPurchase(int customerId, decimal purchaseValue)
+        //{
+        //	CustomerService svc = new CustomerService(_ctx);
 
-			return await svc.CanPurchase(customerId, purchaseValue);
-		}
-	}
+        //	return await svc.CanPurchase(customerId, purchaseValue);
+        //}
+    }
 }
