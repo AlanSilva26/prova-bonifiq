@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ProvaPub.Infra;
+﻿using ProvaPub.Helpers.Interfaces;
 using ProvaPub.Models;
 using ProvaPub.Repository.Interfaces;
 using ProvaPub.Services.Interfaces;
@@ -8,15 +7,22 @@ namespace ProvaPub.Services;
 
 public class CustomerService : ICustomerService
 {
-    private readonly TestDbContext _ctx;
     private readonly ILogger<CustomerService> _logger;
     private readonly ICustomerRepository _customerRepository;
+    private readonly IEnumerable<ICanPurchaseRule> _purchaseRules;
+    private readonly IDateTimeProvider _dateTimeProvider;
 
-    public CustomerService(TestDbContext ctx, ILogger<CustomerService> logger, ICustomerRepository customerRepository)
+    public CustomerService(
+        ILogger<CustomerService> logger,
+        ICustomerRepository customerRepository,
+        IEnumerable<ICanPurchaseRule> purchaseRules,
+        IDateTimeProvider dateTimeProvider
+    )
     {
-        _ctx = ctx;
         _logger = logger;
         _customerRepository = customerRepository;
+        _purchaseRules = purchaseRules;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     public async Task<PaginatedList<Customer>> ListCustomersAsync(int page)
@@ -33,34 +39,20 @@ public class CustomerService : ICustomerService
         }
     }
 
-    // TO DO: refatorar método.
     public async Task<bool> CanPurchase(int customerId, decimal purchaseValue)
     {
-        if (customerId <= 0) throw new ArgumentOutOfRangeException(nameof(customerId));
+        var customer = await _customerRepository.GetById(customerId);
 
-        if (purchaseValue <= 0) throw new ArgumentOutOfRangeException(nameof(purchaseValue));
+        var currentDateTime = _dateTimeProvider.UtcNow;
 
-        //Business Rule: Non registered Customers cannot purchase
-        var customer = await _ctx.Customers.FindAsync(customerId);
-        if (customer == null) throw new InvalidOperationException($"Customer Id {customerId} does not exists");
+        foreach (var rule in _purchaseRules)
+        {
+            var isValid = await rule.ValidateAsync(customer, purchaseValue, currentDateTime);
 
-        //Business Rule: A customer can purchase only a single time per month
-        var baseDate = DateTime.UtcNow.AddMonths(-1);
-        var ordersInThisMonth = await _ctx.Orders.CountAsync(s => s.CustomerId == customerId && s.OrderDate >= baseDate);
-        if (ordersInThisMonth > 0)
-            return false;
-
-        //Business Rule: A customer that never bought before can make a first purchase of maximum 100,00
-        var haveBoughtBefore = await _ctx.Customers.CountAsync(s => s.Id == customerId && s.Orders.Any());
-        if (haveBoughtBefore == 0 && purchaseValue > 100)
-            return false;
-
-        //Business Rule: A customer can purchases only during business hours and working days
-        if (DateTime.UtcNow.Hour < 8 || DateTime.UtcNow.Hour > 18 || DateTime.UtcNow.DayOfWeek == DayOfWeek.Saturday || DateTime.UtcNow.DayOfWeek == DayOfWeek.Sunday)
-            return false;
-
+            if (!isValid)
+                return false;
+        }
 
         return true;
     }
-
 }

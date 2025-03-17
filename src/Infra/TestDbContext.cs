@@ -1,9 +1,11 @@
 ﻿using Bogus;
 using Microsoft.EntityFrameworkCore;
 using ProvaPub.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ProvaPub.Infra;
 
+[ExcludeFromCodeCoverage]
 public class TestDbContext : DbContext
 {
     public TestDbContext(DbContextOptions<TestDbContext> options) : base(options) { }
