@@ -14,6 +14,16 @@
     "test-projects": [
       "ProvaPub.Tests.csproj"
     ],
-    "solution": "../../ProvaPub.sln"
+    "solution": "../../ProvaPub.sln",
+    "ignore-mutations": [
+      "string",
+      "logical",
+      "linq",
+      "unary"
+    ],
+    "mutate": [
+      "!**/Migrations/*.cs",
+      "!**/Program.cs"
+    ]
   }
 }

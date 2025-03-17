@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProvaPub.Helpers;
+using ProvaPub.Helpers.Interfaces;
 using ProvaPub.Infra;
 using ProvaPub.Repository;
 using ProvaPub.Repository.Interfaces;
 using ProvaPub.Services;
 using ProvaPub.Services.Interfaces;
+using ProvaPub.Services.Rules;
 using ProvaPub.Strategy;
 using ProvaPub.Strategy.Interfaces;
 using System.Diagnostics.CodeAnalysis;
@@ -17,6 +20,7 @@ public static class ServiceCollection
     {
         services.AddDatabase(configuration);
         services.AddRepositories();
+        services.AddRules();
         services.AddStrategies();
         services.AddServices();
     }
@@ -40,6 +44,17 @@ public static class ServiceCollection
         return services;
     }
 
+    private static IServiceCollection AddRules(this IServiceCollection services)
+    {
+        services.AddScoped<ICanPurchaseRule, CustomerMustExistRule>();
+        services.AddScoped<ICanPurchaseRule, PurchaseValueMustBePositiveRule>();
+        services.AddScoped<ICanPurchaseRule, CustomerMustWait30DaysRule>();
+        services.AddScoped<ICanPurchaseRule, FirstPurchaseLimitRule>();
+        services.AddScoped<ICanPurchaseRule, BusinessHoursPurchaseRule>();
+
+        return services;
+    }
+
     private static IServiceCollection AddStrategies(this IServiceCollection services)
     {
         services.AddScoped<IPaymentStrategy, PixPaymentStrategy>();
@@ -51,6 +66,7 @@ public static class ServiceCollection
 
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
+        services.AddScoped<IDateTimeProvider, DateTimeProvider>();
         services.AddScoped<INumberGeneratorService, NumberGeneratorService>();
         services.AddScoped<IRandomService, RandomService>();
         services.AddScoped<IProductService, ProductService>();
