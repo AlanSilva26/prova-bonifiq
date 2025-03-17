@@ -1,0 +1,29 @@
+{
+  "stryker-config": {
+    "reporters": [
+      "progress",
+      "cleartext",
+      "html"
+    ],
+    "verbosity": "info",
+    "thresholds": {
+      "high": 80,
+      "low": 60,
+      "break": 50
+    },
+    "test-projects": [
+      "ProvaPub.Tests.csproj"
+    ],
+    "solution": "../../ProvaPub.sln",
+    "ignore-mutations": [
+      "string",
+      "logical",
+      "linq",
+      "unary"
+    ],
+    "mutate": [
+      "!**/Migrations/*.cs",
+      "!**/Program.cs"
+    ]
+  }
+}
